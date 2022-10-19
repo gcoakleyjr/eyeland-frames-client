@@ -162,7 +162,7 @@ const Product = () => {
       <Wrapper>
 
         <ImgContainer>
-          <Image src={product.img ? product.img[0] : ""} />
+          <Image src={product.img ? product.img[0].url : ""} />
         </ImgContainer>
 
         <InfoContainer>

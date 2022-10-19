@@ -67,12 +67,13 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
+
   return (
     <Container>
 
       <Circle />
 
-      <Image src={item.img[0]} />
+      <Image src={item.img[0]?.url} />
 
       <Info>
 

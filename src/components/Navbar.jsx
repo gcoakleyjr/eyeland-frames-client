@@ -1,11 +1,14 @@
 import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchIcon from '@mui/icons-material/Search';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { logout } from '../redux/userRedux';
 
 const Container = styled.div`
   height: 60px;
@@ -26,11 +29,11 @@ const Left = styled.div`
   align-items: center;
 `;
 
-const Language = styled.span`
+
+const User = styled.span`
   font-size: 14px;
   cursor: pointer;
-  ${mobile({ display: "none" })}
-`;
+`
 
 const SearchContainer = styled.div`
   border: 0.5px solid lightgray;
@@ -59,6 +62,7 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 1rem;
   ${mobile({ flex: 2, justifyContent: "center" })}
 `;
 
@@ -77,11 +81,13 @@ const HeaderLink = styled(Link)`
 
 const Navbar = () => {
   const quantity = useSelector(state => state.cart.quantity)
+  const user = useSelector(state => state.user.currentUser)
+  const dispatch = useDispatch()
+  console.log(user)
   return (
     <Container>
       <Wrapper>
         <Left>
-          <Language>EN</Language>
           <SearchContainer>
             <Input placeholder="Search" />
             <SearchIcon style={{ color: "gray", fontSize: 16 }} />
@@ -89,12 +95,30 @@ const Navbar = () => {
         </Left>
         <Center>
           <HeaderLink to="/">
-            <Logo>LAMA.</Logo>
+            <Logo>EYELAND FRAMES.</Logo>
           </HeaderLink>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
+
+          {!user ?
+            <>
+              <Link to="/register">
+                <MenuItem>REGISTER</MenuItem>
+              </Link>
+
+              <Link to="/login">
+                <MenuItem>SIGN IN</MenuItem>
+              </Link>
+            </>
+            :
+            <>
+              <User>Hello, {user.username}!</User>
+              <PersonRoundedIcon sx={{ cursor: 'pointer' }} />
+              <LogoutIcon sx={{ cursor: 'pointer' }} onClick={() => dispatch(logout())} />
+            </>
+          }
+
+
           <Link to="/cart">
             <MenuItem>
               <Badge badgeContent={quantity} color="primary" overlap="circular">

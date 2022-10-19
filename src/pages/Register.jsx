@@ -1,5 +1,10 @@
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../redux/apiCalls";
+
 
 const Container = styled.div`
   width: 100vw;
@@ -46,7 +51,7 @@ const Agreement = styled.span`
 `;
 
 const Button = styled.button`
-  width: 40%;
+  width: 200px;
   border: none;
   padding: 15px 20px;
   background-color: teal;
@@ -54,23 +59,98 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const Links = styled(Link)`
+  margin: 5px 0px;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
+const Error = styled.span`
+    color: red;
+    font-size: 12px;
+`
+
 const Register = () => {
+
+  const [inputs, setInputs] = useState({});
+  const [errorPassword, setErrorPassword] = useState(false);
+  const dispatch = useDispatch()
+  const { isFetching, error } = useSelector(state => state.user)
+
+  const handleChange = (e) => {
+    setInputs((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+
+  //SUBMIT DATA TO API
+  const handleCreate = (e) => {
+    e.preventDefault()
+    if (inputs.password !== inputs.confirmPassword) {
+      setErrorPassword(true)
+      return
+    }
+    const { confirmPassword, ...others } = inputs
+    register(dispatch, others)
+  }
+
+  useEffect(() => {
+    const resetError = setTimeout(() => {
+      setErrorPassword(false)
+    }, 5000)
+    return () => clearTimeout(resetError)
+  }, [errorPassword])
+
+
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          <Input placeholder="name" />
-          <Input placeholder="last name" />
-          <Input placeholder="username" />
-          <Input placeholder="email" />
-          <Input placeholder="password" />
-          <Input placeholder="confirm password" />
+          <Input
+            placeholder="name"
+            onChange={handleChange}
+            name="firstName"
+          />
+          <Input
+            placeholder="last name"
+            onChange={handleChange}
+            name="lastName"
+          />
+          <Input
+            placeholder="username"
+            onChange={handleChange}
+            name="username"
+          />
+          <Input
+            placeholder="email"
+            onChange={handleChange}
+            name="email"
+            type="email"
+          />
+          <Input
+            placeholder="password"
+            onChange={handleChange}
+            type="password"
+            name="password"
+          />
+          <Input
+            placeholder="confirm password"
+            onChange={handleChange}
+            type="password"
+            name="confirmPassword"
+          />
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button>CREATE</Button>
+          <div style={{ display: "flex", alignItems: 'center', gap: '1rem' }}>
+            <Button onClick={handleCreate} disabled={isFetching} >{isFetching ? "Creating..." : "Create"}</Button>
+            <Links to='/'>Back to Home Page</Links>
+            {errorPassword && <Error>Passwords do not match</Error>}
+            {error && <Error>Something went wrong...</Error>}
+          </div>
         </Form>
       </Wrapper>
     </Container>

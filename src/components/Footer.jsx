@@ -18,6 +18,7 @@ const Left = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
+  padding-right: 40px
 `;
 
 const Logo = styled.h1``;
@@ -79,18 +80,23 @@ const ContactItem = styled.div`
 `;
 
 const Payment = styled.img`
+    width: 40px;
+`;
+
+const PaymentWrapper = styled.div`
     width: 50%;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
 `;
 
 const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>LAMA.</Logo>
+        <Logo>EYELAND FRAMES</Logo>
         <Desc>
-          There are many variations of passages of Lorem Ipsum available, but
-          the majority have suffered alteration in some form, by injected
-          humour, or randomised words which don’t look even slightly believable.
+          Shop for designer glasses and have them delivered to your local store for pickup! We provide fashionable, innovative, and top-graded quality eyewear.
         </Desc>
         <SocialContainer>
           <SocialIcon color="3B5999">
@@ -112,28 +118,30 @@ const Footer = () => {
         <List>
           <ListItem>Home</ListItem>
           <ListItem>Cart</ListItem>
-          <ListItem>Man Fashion</ListItem>
-          <ListItem>Woman Fashion</ListItem>
-          <ListItem>Accessories</ListItem>
+          <ListItem>Men's Fashion</ListItem>
+          <ListItem>Women's Fashion</ListItem>
           <ListItem>My Account</ListItem>
-          <ListItem>Order Tracking</ListItem>
           <ListItem>Wishlist</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Terms</ListItem>
         </List>
       </Center>
       <Right>
         <Title>Contact</Title>
         <ContactItem>
-          <RoomIcon style={{ marginRight: "10px" }} /> 622 Dixie Path , South Tobinchester 98336
+          <RoomIcon style={{ marginRight: "10px" }} /> Eventual Brick & Mortar Location
         </ContactItem>
         <ContactItem>
-          <PhoneIcon style={{ marginRight: "10px" }} /> +1 234 56 78
+          <PhoneIcon style={{ marginRight: "10px" }} /> +1 242 242 2442
         </ContactItem>
         <ContactItem>
-          <MailIcon style={{ marginRight: "10px" }} /> contact@lama.dev
+          <MailIcon style={{ marginRight: "10px" }} /> eyelandframes@gmail.com
         </ContactItem>
-        <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
+        <PaymentWrapper>
+          <Payment src="./img/american-express-svgrepo-com.svg" />
+          <Payment src="./img/discover-svgrepo-com.svg" />
+          <Payment src="./img/mastercard-3-svgrepo-com.svg" />
+          <Payment src="./img/visa-svgrepo-com.svg" />
+        </PaymentWrapper>
+
       </Right>
     </Container>
   );
