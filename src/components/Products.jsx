@@ -1,14 +1,27 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-// import { popularProducts } from "../data";
+import { mobile } from "../responsive";
 import Product from "./Product";
 import axios from "axios"
 
 const Container = styled.div`
-    padding: 20px;
+    padding: 0 60px 30px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    ${mobile({ padding: "0 10px 30px 10px" })}
+`;
+
+const ProductsWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
+`;
+
+const Title = styled.h1`
+`;
+
+const SubTitle = styled.span`
 `;
 
 const Products = ({ category, filters, sort }) => {
@@ -58,11 +71,19 @@ const Products = ({ category, filters, sort }) => {
 
   return (
     <Container>
-      {category
-        ? filteredProducts.map((item) => <Product item={item} key={item._id} />)
-        : products
-          .slice(0, 8)
-          .map((item) => <Product item={item} key={item._id} />)}
+      <div>
+        <Title>Featured Glasses</Title>
+        <SubTitle>From clear to gold glasses, these are the biggest trends that you can easily wear in your everyday life.</SubTitle>
+      </div>
+
+      <ProductsWrapper>
+        {category
+          ? filteredProducts.map((item) => <Product item={item} key={item._id} />)
+          : products
+            .slice(0, 8)
+            .map((item) => <Product item={item} key={item._id} />)}
+      </ProductsWrapper>
+
     </Container>
   );
 };

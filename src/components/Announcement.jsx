@@ -2,17 +2,18 @@ import styled from "styled-components";
 
 const Container = styled.div`
   height: 30px;
-  background-color: #f25a62;
+  background-color: #121212;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   font-weight: 500;
+  border-bottom: 1px solid #252525;
 `;
 
 const Announcement = () => {
-  return <Container>Super Deal! Free Shipping on Orders Over $50</Container>;
+  return <Container>New customers get 15% off!</Container>;
 };
 
 export default Announcement;

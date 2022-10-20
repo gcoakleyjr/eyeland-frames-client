@@ -5,7 +5,8 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { emptyCart } from '../redux/cartRedux';
 import axios from "axios"
 
 
@@ -160,8 +161,9 @@ const Button = styled.button`
 
 
 const PayButton = ({ cartItems }) => {
+  const dispatch = useDispatch()
   const user = useSelector(state => state.user.currentUser)
-  console.log(cartItems)
+
   const handleCheckout = () => {
     axios.post("http://localhost:5000/api/checkout/payment", {
       cartItems,
@@ -169,6 +171,7 @@ const PayButton = ({ cartItems }) => {
     }).then((res) => {
       if (res.data.url) {
         window.location.href = res.data.url
+        dispatch(emptyCart())
       }
     }).catch((err) => console.log(err.message))
   }

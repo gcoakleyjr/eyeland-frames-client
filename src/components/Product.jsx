@@ -3,6 +3,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { mobile } from '../responsive';
 
 const Info = styled.div`
   opacity: 0;
@@ -21,15 +22,15 @@ const Info = styled.div`
 `;
 
 const Container = styled.div`
-  flex: 1;
-  margin: 5px;
-  min-width: 280px;
-  height: 350px;
+  width: 33%;
+  height: 450px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5fbfd;
+  padding: 10px;
+  background-color: #8f8f8f;
   position: relative;
+  ${mobile({ minWidth: "280px" })};
 
   &:hover ${Info}{
     opacity: 1;
@@ -70,8 +71,6 @@ const Product = ({ item }) => {
 
   return (
     <Container>
-
-      <Circle />
 
       <Image src={item.img[0]?.url} />
 

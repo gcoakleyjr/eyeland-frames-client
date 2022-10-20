@@ -5,26 +5,31 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import React from "react";
 import styled from "styled-components";
-import { mobile } from "../responsive";
+import { mobile, tablet } from "../responsive";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"
 import { logout } from '../redux/userRedux';
 
 const Container = styled.div`
-  height: 60px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #121212;
+  color: white;
   ${mobile({ height: "50px" })}
 `;
 
 const Wrapper = styled.div`
-  padding: 10px 20px;
+  padding: 10px 60px;
   display: flex;
   align-items: center;
+  width: 100%;
   justify-content: space-between;
-  ${mobile({ padding: "10px 0px" })}
+  ${mobile({ padding: "10px 15px" })}
 `;
 
 const Left = styled.div`
-  flex: 1;
   display: flex;
   align-items: center;
 `;
@@ -41,53 +46,110 @@ const SearchContainer = styled.div`
   align-items: center;
   margin-left: 25px;
   padding: 5px;
+  border-radius: 3px;
+  ${tablet({ display: "none" })}
 `;
 
 const Input = styled.input`
   border: none;
+  color: white;
+  background: transparent;
   ${mobile({ width: "50px" })}
 `;
 
 const Center = styled.div`
-  flex: 1;
   text-align: center;
 `;
 
 const Logo = styled.h1`
-  font-weight: bold;
+  font-weight: 100;
   ${mobile({ fontSize: "24px" })}
 `;
 const Right = styled.div`
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 1rem;
-  ${mobile({ flex: 2, justifyContent: "center" })}
 `;
 
 const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
-  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
+  ${tablet({ marginLeft: "0" })};
+  ${mobile({ fontSize: "12px" })}
+`;
+
+const UserMenuWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  ${tablet({ display: "none" })}
 `;
 
 const HeaderLink = styled(Link)`
   cursor: pointer;
   text-decoration: none;
-  color: black;
+  color: white;
 `
+
+const MenuWrapper = styled.div`
+  width: 2rem;
+  height: 3rem;
+  z-index: 100;
+  position: relative;
+  display: none;
+  align-items: center;
+  justify-content: flex-end;
+  ${tablet({ display: "flex" })}
+`
+
+const MenuBar = styled.div`
+position: relative;
+  width: 2rem;
+  height: 1px;
+  border-radius: 1px;
+  background-color: white;
+  transition: 0.5s;
+
+  &:before, &:after {
+    content: "";
+    position: absolute;
+    width: 2rem;
+    height: 1px;
+    border-radius: 1px;
+    background-color: white;
+    transition: .5s
+  };
+
+  &:before {
+    transform: translateY(-8px)
+  };
+  &:after {
+    transform: translateY(8px)
+  }
+`
+
+const Hamburger = (props) => {
+  return (
+    <MenuWrapper>
+      <MenuBar />
+    </MenuWrapper>
+  )
+}
 
 const Navbar = () => {
   const quantity = useSelector(state => state.cart.quantity)
   const user = useSelector(state => state.user.currentUser)
   const dispatch = useDispatch()
-  console.log(user)
+
   return (
     <Container>
       <Wrapper>
         <Left>
+          <Hamburger />
           <SearchContainer>
             <Input placeholder="Search" />
             <SearchIcon style={{ color: "gray", fontSize: 16 }} />
@@ -100,26 +162,27 @@ const Navbar = () => {
         </Center>
         <Right>
 
-          {!user ?
-            <>
-              <Link to="/register">
-                <MenuItem>REGISTER</MenuItem>
-              </Link>
+          <UserMenuWrapper>
+            {!user ?
+              <>
+                <Link to="/register">
+                  <MenuItem>REGISTER</MenuItem>
+                </Link>
 
-              <Link to="/login">
-                <MenuItem>SIGN IN</MenuItem>
-              </Link>
-            </>
-            :
-            <>
-              <User>Hello, {user.username}!</User>
-              <PersonRoundedIcon sx={{ cursor: 'pointer' }} />
-              <LogoutIcon sx={{ cursor: 'pointer' }} onClick={() => dispatch(logout())} />
-            </>
-          }
+                <Link to="/login">
+                  <MenuItem>SIGN IN</MenuItem>
+                </Link>
+              </>
+              :
+              <>
+                <User>Hello, {user.username}!</User>
+                <PersonRoundedIcon sx={{ cursor: 'pointer' }} />
+                <LogoutIcon sx={{ cursor: 'pointer' }} onClick={() => dispatch(logout())} />
+              </>
+            }
+          </UserMenuWrapper>
 
-
-          <Link to="/cart">
+          <Link to="/cart" style={{ color: "white" }}>
             <MenuItem>
               <Badge badgeContent={quantity} color="primary" overlap="circular">
                 <ShoppingCartOutlinedIcon />
