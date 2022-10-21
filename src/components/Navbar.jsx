@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"
 import { logout } from '../redux/userRedux';
 
-const Container = styled.div`
+const Container = styled.nav`
   height: 80px;
   display: flex;
   align-items: center;
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   justify-content: space-between;
-  ${mobile({ padding: "10px 15px" })}
+  ${mobile({ padding: "10px 25px" })}
 `;
 
 const Left = styled.div`
@@ -146,7 +146,7 @@ const Navbar = () => {
   const dispatch = useDispatch()
 
   return (
-    <Container>
+    <Container id='nav-bar'>
       <Wrapper>
         <Left>
           <Hamburger />

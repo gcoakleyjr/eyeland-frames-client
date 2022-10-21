@@ -3,20 +3,21 @@ import styled from "styled-components";
 import { mobile } from "../responsive";
 import Product from "./Product";
 import axios from "axios"
+import Grid from '@mui/material/Unstable_Grid2';
 
-const Container = styled.div`
+const Container = styled.section`
     padding: 0 60px 30px 60px;
     display: flex;
     flex-direction: column;
     gap: 60px;
-    ${mobile({ padding: "0 10px 30px 10px" })}
+    ${mobile({ padding: "0 20px 30px 20px" })}
 `;
 
-const ProductsWrapper = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-`;
+// const ProductsWrapper = styled.div`
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: center;
+// `;
 
 const Title = styled.h1`
 `;
@@ -70,19 +71,19 @@ const Products = ({ category, filters, sort }) => {
   }, [sort]);
 
   return (
-    <Container>
+    <Container id='products'>
       <div>
         <Title>Featured Glasses</Title>
         <SubTitle>From clear to gold glasses, these are the biggest trends that you can easily wear in your everyday life.</SubTitle>
       </div>
 
-      <ProductsWrapper>
+      <Grid container spacing={2}>
         {category
           ? filteredProducts.map((item) => <Product item={item} key={item._id} />)
           : products
             .slice(0, 8)
             .map((item) => <Product item={item} key={item._id} />)}
-      </ProductsWrapper>
+      </Grid>
 
     </Container>
   );

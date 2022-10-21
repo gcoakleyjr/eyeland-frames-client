@@ -4,6 +4,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { mobile } from '../responsive';
+import Grid from '@mui/material/Unstable_Grid2';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+
+
 
 const Info = styled.div`
   opacity: 0;
@@ -22,27 +28,19 @@ const Info = styled.div`
 `;
 
 const Container = styled.div`
-  width: 33%;
-  height: 450px;
+  height: ${(props) => props.sizeXl ? "25vw" : props.sizeMd ? '30vw' : props.sizeSm ? '45vw' : '85vw'};
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px;
-  background-color: #8f8f8f;
+  background-color: #ffffff;
   position: relative;
-  ${mobile({ minWidth: "280px" })};
+  border-radius: 15px;
+  border: 1px solid gray;
 
   &:hover ${Info}{
     opacity: 1;
   }
-`;
-
-const Circle = styled.div`
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background-color: white;
-  position: absolute;
 `;
 
 const Image = styled.img`
@@ -68,30 +66,38 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
+  const theme = useTheme();
+  const smScreen = useMediaQuery(theme.breakpoints.up('sm'));
+  const mdScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const xlScreen = useMediaQuery(theme.breakpoints.up('xl'));
+  console.log(smScreen)
 
   return (
-    <Container>
+    <Grid sm={6} md={4} xl={3}>
+      <Container sizeSm={smScreen} sizeMd={mdScreen} sizeXl={xlScreen}>
 
-      <Image src={item.img[0]?.url} />
 
-      <Info>
+        <Image src={item.img[0]?.url} />
 
-        <Icon>
-          <ShoppingCartOutlinedIcon />
-        </Icon>
-        <Link to={`/product/${item._id}`}>
+        <Info>
+
           <Icon>
-            <SearchIcon />
+            <ShoppingCartOutlinedIcon />
           </Icon>
-        </Link>
+          <Link to={`/product/${item._id}`}>
+            <Icon>
+              <SearchIcon />
+            </Icon>
+          </Link>
 
-        <Icon>
-          <FavoriteIcon />
-        </Icon>
+          <Icon>
+            <FavoriteIcon />
+          </Icon>
 
-      </Info>
+        </Info>
 
-    </Container>
+      </Container>
+    </Grid>
   );
 };
 

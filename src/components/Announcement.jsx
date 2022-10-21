@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Container = styled.div`
+const Container = styled.section`
   height: 30px;
   background-color: #121212;
   color: white;
@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 const Announcement = () => {
-  return <Container>New customers get 15% off!</Container>;
+  return <Container id='announcement'>New customers get 15% off!</Container>;
 };
 
 export default Announcement;

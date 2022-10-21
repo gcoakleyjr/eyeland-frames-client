@@ -2,7 +2,7 @@ import SendIcon from '@mui/icons-material/Send';
 import styled from "styled-components";
 import { mobile } from "../responsive";
 
-const Container = styled.div`
+const Container = styled.section`
   height: 30vh;
   background-color: cadetblue;
   display: flex;
@@ -53,7 +53,7 @@ const Button = styled.button`
 
 const Newsletter = () => {
   return (
-    <Container>
+    <Container id='newsletter'>
       <Title>Newsletter</Title>
       <Desc>Get timely updates from your favorite products.</Desc>
       <InputContainer>

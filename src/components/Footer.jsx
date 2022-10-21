@@ -15,6 +15,7 @@ const Container = styled.footer`
   color: #c0c0c0;
   font-weight: 100;
   flex-direction: column;
+  ${mobile({ padding: "20px 20px 30px 20px" })}
 `;
 
 const UpperWrapper = styled.div`
@@ -41,6 +42,7 @@ const Left = styled.div`
   flex-direction: column;
   padding: 20px 0;
   padding-right: 40px;
+  ${mobile({ padding: '20px 0' })}
 `;
 
 const Logo = styled.h1`
@@ -96,8 +98,7 @@ const Right = styled.div`
   flex: 1;
   padding: 20px;
   padding-right: 0;
-  ${mobile({ backgroundColor: "#fff8f8" })}
-
+  ${mobile({ padding: '20px 0' })}
 `;
 
 const ContactItem = styled.div`
