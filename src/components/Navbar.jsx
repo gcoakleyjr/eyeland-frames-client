@@ -18,18 +18,23 @@ const Container = styled.nav`
   background-color: #121212;
   color: white;
   ${mobile({ height: "50px" })}
+  & a {
+    color: white
+  }
 `;
 
 const Wrapper = styled.div`
   padding: 10px 60px;
   display: flex;
   align-items: center;
+
   width: 100%;
   justify-content: space-between;
   ${mobile({ padding: "10px 25px" })}
 `;
 
 const Left = styled.div`
+flex: 1;
   display: flex;
   align-items: center;
 `;
@@ -59,6 +64,8 @@ const Input = styled.input`
 
 const Center = styled.div`
   text-align: center;
+  flex: 1;
+  min-width: 200px;
 `;
 
 const Logo = styled.h1`
@@ -66,6 +73,7 @@ const Logo = styled.h1`
   ${mobile({ fontSize: "24px" })}
 `;
 const Right = styled.div`
+flex: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -143,6 +151,7 @@ const Hamburger = (props) => {
 const Navbar = () => {
   const quantity = useSelector(state => state.cart.quantity)
   const user = useSelector(state => state.user.currentUser)
+
   const dispatch = useDispatch()
 
   return (

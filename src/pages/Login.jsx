@@ -8,22 +8,18 @@ import { Link } from "react-router-dom";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
-    url("https://images.pexels.com/photos/6984650/pexels-photo-6984650.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
-      center;
-  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;
 
 const Wrapper = styled.div`
   width: 25%;
   padding: 20px;
   background-color: white;
+  position: relative;
+  z-index: 5;
   ${mobile({ width: "75%" })}
 `;
 
@@ -48,7 +44,7 @@ const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
-  background-color: teal;
+  background-color: cadetblue;
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
@@ -82,6 +78,10 @@ const Login = () => {
 
   return (
     <Container>
+      <div style={{ position: 'absolute', left: '0', top: '0', height: '100%', width: '500px', overflow: 'hidden', zIndex: 0 }}>
+        <img src="https://res.cloudinary.com/dx1cp4cj9/image/upload/v1666147534/Eyeland%20Frames/pexels-anna-shvets-3727465_smbxae.jpg" alt=""
+          style={{ height: "100%", objectFit: 'cover' }} />
+      </div>
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
@@ -95,7 +95,7 @@ const Login = () => {
             type="password"
           />
           <Button onClick={handleLogin} disabled={isFetching} >LOGIN</Button>
-          {error && <Error>Something went wrong...</Error>}
+
           <Links >DON'T REMEMBER THE PASSWORD?</Links>
           <Links to="/register">CREATE A NEW ACCOUNT</Links>
         </Form>

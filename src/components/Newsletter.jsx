@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { mobile } from "../responsive";
 
 const Container = styled.section`
-  height: 30vh;
+  height: 325px;
   background-color: cadetblue;
   display: flex;
   align-items: center;
@@ -12,20 +12,20 @@ const Container = styled.section`
 `;
 const Title = styled.h1`
   font-size: 70px;
-  margin-bottom: 20px;
 `;
 
 const Desc = styled.div`
   font-size: 24px;
   font-weight: 300;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   ${mobile({ textAlign: "center" })}
 
 `;
 
 const InputContainer = styled.div`
-  width: 50%;
+  width: 350px;
   height: 40px;
+  margin-bottom: 10px;
   background-color: white;
   display: flex;
   justify-content: space-between;

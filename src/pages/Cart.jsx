@@ -6,12 +6,16 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
 import { useSelector, useDispatch } from "react-redux"
-import { emptyCart } from '../redux/cartRedux';
+import { emptyCart, increaseProduct, decreaseProduct, removeProduct } from '../redux/cartRedux';
+import { Link } from "react-router-dom";
 import axios from "axios"
 
 
 
-const Container = styled.div``;
+const Container = styled.div`
+padding: 0 60px;
+${mobile({ padding: "0 20px 30px 20px" })}
+`;
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -27,7 +31,7 @@ const Top = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 20px 0 40px 0;
 `;
 
 const TopButton = styled.button`
@@ -58,21 +62,29 @@ const Bottom = styled.div`
 
 const Info = styled.div`
   flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 `;
 
 const Product = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  margin-bottom: 15px;
   ${mobile({ flexDirection: "column" })}
 `;
 
 const ProductDetail = styled.div`
   flex: 2;
   display: flex;
+  ${mobile({ flexDirection: "column" })}
 `;
 
 const Image = styled.img`
-  width: 200px;
+  height: 150px;
+  ${mobile({ height: "80%" })}
 `;
 
 const Details = styled.div`
@@ -80,6 +92,7 @@ const Details = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  gap: .5rem;
 `;
 
 const ProductName = styled.span``;
@@ -109,12 +122,6 @@ const ProductAmountContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const ProductAmount = styled.div`
-  font-size: 24px;
-  margin: 5px;
-  ${mobile({ margin: "5px 15px" })}
-`;
-
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
@@ -125,6 +132,9 @@ const Hr = styled.hr`
   background-color: #eee;
   border: none;
   height: 1px;
+  position: absolute;
+  bottom: -10px;
+  width: 100%;
 `;
 
 const Summary = styled.div`
@@ -159,6 +169,30 @@ const Button = styled.button`
   font-weight: 600;
 `;
 
+const RemoveItem = styled.span`
+  text-decoration: underline;
+  font-size: 12px;
+  margin-bottom: 20px;
+  cursor: pointer;
+`
+
+const Amount = styled.span`
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid teal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 5px;
+`;
+
+const EmptyCart = styled.div`
+  height: 55vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 const PayButton = ({ cartItems }) => {
   const dispatch = useDispatch()
@@ -184,80 +218,107 @@ const PayButton = ({ cartItems }) => {
 
 const Cart = () => {
   const cart = useSelector(state => state.cart)
+  const dispatch = useDispatch()
+  console.log(cart)
+
+  const handleQuantity = (type, product) => {
+    if (type === "dec") {
+      product.quantity > 1 && dispatch(decreaseProduct(product))
+    } else {
+      dispatch(increaseProduct(product))
+    }
+  };
 
   return (
-    <Container>
-      <Navbar />
+    <>
       <Announcement />
-      <Wrapper>
-        <Title>YOUR BAG</Title>
-        <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
-          <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
-          </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
-        </Top>
-        <Bottom>
-          <Info>
-            {cart.products.map((product, i) => (
-              <Product key={i}>
-                <ProductDetail>
-                  <Image src={product.img ? product.img[0].url : ""} />
-                  <Details>
-                    <ProductName>
-                      <b>Product:</b> {product.title}
-                    </ProductName>
-                    <ProductId>
-                      <b>ID:</b> {product._id}
-                    </ProductId>
-                    <ProductColor color="black" />
-                    <ProductSize>
-                      <b>Size:</b> {product.size}
-                    </ProductSize>
-                  </Details>
-                </ProductDetail>
-                <PriceDetail>
-                  <ProductAmountContainer>
-                    <AddIcon sx={{ cursor: 'pointer' }} />
-                    <ProductAmount>{product.quantity}</ProductAmount>
-                    <RemoveIcon sx={{ cursor: 'pointer' }} />
-                  </ProductAmountContainer>
-                  <ProductPrice>$ {product.price * product.quantity}</ProductPrice>
-                </PriceDetail>
-              </Product>
+      <Navbar />
+      <Container>
 
-            ))}
+        <Wrapper>
+          <Title onClick={() => dispatch(emptyCart())}>YOUR BAG</Title>
 
-            <Hr />
-          </Info>
-          <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
-            </SummaryItem>
+          <Top>
+            <Link to='/'>
+              <TopButton>CONTINUE SHOPPING</TopButton>
+            </Link>
+            <TopTexts>
+              <TopText>Shopping Bag({cart.products.length})</TopText>
+              <TopText>Your Wishlist (0)</TopText>
+            </TopTexts>
+          </Top>
 
-            <PayButton cartItems={cart.products} />
+          <Bottom>
+            <Info>
+              {cart.products.length > 0 ?
+                cart.products.map((product, i) => (
 
-          </Summary>
-        </Bottom>
-      </Wrapper>
+                  <Product key={product._id}>
+
+                    <ProductDetail>
+
+                      <Image src={product.img ? product.img[0].url : ""} />
+                      <Details>
+                        <ProductName>
+                          <b>Product:</b> {product.title}
+                        </ProductName>
+                        <ProductId>
+                          <b>ID:</b> {product._id}
+                        </ProductId>
+                        <ProductColor color={product.color} />
+                        <ProductSize>
+                          <b>Size:</b> {product.size}
+                        </ProductSize>
+                      </Details>
+
+                    </ProductDetail>
+
+                    <PriceDetail>
+                      <RemoveItem onClick={() => dispatch(removeProduct({ ...product, index: i }))}>Remove Item</RemoveItem>
+                      <ProductAmountContainer>
+                        <RemoveIcon sx={{ cursor: 'pointer' }} onClick={() => handleQuantity("dec", { ...product, index: i })} />
+                        <Amount>{product.quantity}</Amount>
+                        <AddIcon sx={{ cursor: 'pointer' }} onClick={() => handleQuantity("inc", { ...product, index: i })} />
+                      </ProductAmountContainer>
+                      <ProductPrice>$ {product.price * product.quantity}</ProductPrice>
+                    </PriceDetail>
+                    <Hr />
+                  </Product>
+                ))
+                : <EmptyCart>It looks like your cart is empty. Let's get shopping!</EmptyCart>
+              }
+            </Info>
+
+            {cart.products.length > 0 &&
+              <Summary>
+                <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+                <SummaryItem>
+                  <SummaryItemText>Subtotal</SummaryItemText>
+                  <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem>
+                  <SummaryItemText>Estimated Shipping</SummaryItemText>
+                  <SummaryItemPrice>$ 10</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem>
+                  <SummaryItemText>Shipping Discount</SummaryItemText>
+                  <SummaryItemPrice>$ -10</SummaryItemPrice>
+                </SummaryItem>
+                <SummaryItem type="total">
+                  <SummaryItemText>Total</SummaryItemText>
+                  <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+                </SummaryItem>
+
+                <PayButton cartItems={cart.products} />
+
+              </Summary>
+            }
+          </Bottom>
+        </Wrapper>
+
+      </Container>
       <Footer />
-    </Container>
+    </>
   );
 };
 

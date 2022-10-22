@@ -13,17 +13,19 @@ const Container = styled.section`
     ${mobile({ padding: "0 20px 30px 20px" })}
 `;
 
-// const ProductsWrapper = styled.div`
-//     display: flex;
-//     flex-wrap: wrap;
-//     justify-content: center;
-// `;
-
 const Title = styled.h1`
 `;
 
 const SubTitle = styled.span`
 `;
+
+const EmptyProducts = styled.div`
+height: 30vh;
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+`
 
 const Products = ({ category, filters, sort }) => {
   const [products, setProducts] = useState([]);
@@ -47,11 +49,13 @@ const Products = ({ category, filters, sort }) => {
     category &&
       setFilteredProducts(
         products.filter((item) =>
-          Object.entries(filters).every(([key, value]) =>
-            item[key].includes(value)
-          )
+          Object.entries(filters).every(([key, value]) => {
+            if (value === "all") return true
+            else return item[key].includes(value)
+          })
         )
       );
+    console.log(filters)
   }, [products, category, filters]);
 
   useEffect(() => {
@@ -61,25 +65,31 @@ const Products = ({ category, filters, sort }) => {
       );
     } else if (sort === "asc") {
       setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => a.price - b.price)
+        [...prev].sort((a, b) => b.price - a.price)
       );
     } else {
       setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => b.price - a.price)
+        [...prev].sort((a, b) => a.price - b.price)
       );
     }
   }, [sort]);
 
   return (
     <Container id='products'>
-      <div>
-        <Title>Featured Glasses</Title>
-        <SubTitle>From clear to gold glasses, these are the biggest trends that you can easily wear in your everyday life.</SubTitle>
-      </div>
+      {!category ?
+        <div>
+          <Title>Featured Glasses</Title>
+          <SubTitle>From clear to gold glasses, these are the biggest trends that you can easily wear in your everyday life.</SubTitle>
+        </div>
+        :
+        <></>
+      }
+
 
       <Grid container spacing={2}>
         {category
-          ? filteredProducts.map((item) => <Product item={item} key={item._id} />)
+          ? filteredProducts.length > 0 ? filteredProducts.map((item) => <Product item={item} key={item._id} />)
+            : (<EmptyProducts><SubTitle>No products match that description</SubTitle></EmptyProducts>)
           : products
             .slice(0, 8)
             .map((item) => <Product item={item} key={item._id} />)}

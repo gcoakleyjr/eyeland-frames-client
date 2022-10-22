@@ -50,7 +50,7 @@ const Slide = styled.div`
 
 const ImgContainer = styled.div`
   height: 100%;
-  flex: 1;
+  flex: 2;
   width: 50%;
 `;
 
@@ -75,13 +75,43 @@ const Desc = styled.p`
   letter-spacing: 3px;
 `;
 
+const ButtonText = styled.span`
+  position: relative;
+  color: black;
+  z-index: 11;
+  transition: 0.5s;
+`
+
 const Button = styled.button`
   padding: 10px;
   font-size: 20px;
   background-color: transparent;
   border: 1px solid #121212;
   cursor: pointer;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: -100%;
+    background-color: black;
+    top: 0;
+    transition: 0.5s ease;
+    z-index: 5;
+  }
+  &:hover::before {
+    left: 0;
+  }
+  &:hover ${ButtonText} {
+    color: #dddddd;
+  }
 `;
+
+
 
 const Slider = () => {
   const [slideIndex, setSlideIndex] = useState(0);
@@ -107,7 +137,7 @@ const Slider = () => {
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
-              <Button>SHOP NOW</Button>
+              <Button><ButtonText>SHOP NOW</ButtonText></Button>
             </InfoContainer>
           </Slide>
         ))}
