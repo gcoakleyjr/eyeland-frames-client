@@ -37,3 +37,7 @@
 -add cart per user
 
 -add profile page | change password
+
+-add 404 page
+
+-add purchase success page

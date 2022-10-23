@@ -4,6 +4,7 @@ import {
   Navigate
 } from "react-router-dom";
 
+
 import Product from "./pages/Product";
 import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
