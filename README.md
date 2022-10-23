@@ -32,4 +32,8 @@
 
 -add 15% of new customer coupon
 
+-add wishlist
 
+-add cart per user
+
+-add profile page | change password
