@@ -194,12 +194,14 @@ const EmptyCart = styled.div`
   justify-content: center;
 `
 
+const URL = 'https://eyelandframezapi.herokuapp.com/api/checkout/payment' || 'http://localhost:5000/api/checkout/payment'
+
 const PayButton = ({ cartItems }) => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user.currentUser)
 
   const handleCheckout = () => {
-    axios.post("http://localhost:5000/api/checkout/payment", {
+    axios.post(URL, {
       cartItems,
       userId: user._id
     }).then((res) => {
@@ -211,7 +213,7 @@ const PayButton = ({ cartItems }) => {
   }
 
   return (
-    <Button onClick={handleCheckout}>Check Out</Button>
+    <Button disabled onClick={handleCheckout}>Check Out</Button>
   )
 }
 
@@ -219,7 +221,6 @@ const PayButton = ({ cartItems }) => {
 const Cart = () => {
   const cart = useSelector(state => state.cart)
   const dispatch = useDispatch()
-  console.log(cart)
 
   const handleQuantity = (type, product) => {
     if (type === "dec") {

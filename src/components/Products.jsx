@@ -27,6 +27,8 @@ justify-content: center;
 align-items: center;
 `
 
+const URL = 'https://eyelandframezapi.herokuapp.com/api/products' || 'http://localhost:5000/api/products'
+
 const Products = ({ category, filters, sort }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -36,8 +38,8 @@ const Products = ({ category, filters, sort }) => {
       try {
         const res = await axios.get(
           category
-            ? `http://localhost:5000/api/products?category=${category}`
-            : "http://localhost:5000/api/products"
+            ? `${URL}?category=${category}`
+            : URL
         );
         setProducts(res.data);
       } catch (err) { }
