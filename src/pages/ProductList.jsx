@@ -57,8 +57,9 @@ const ProductList = () => {
 
   return (
     <Container>
-      <Navbar />
       <Announcement />
+      <Navbar />
+
       <Title>{category === "female" ? "Women's Fashion Eyeglasses" : category === "male" ? "Men's Fashion Eyeglasses" : "Eyeglasses for Everyone"}</Title>
 
       <FilterContainer>

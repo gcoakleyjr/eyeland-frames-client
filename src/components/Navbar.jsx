@@ -15,7 +15,7 @@ const Container = styled.nav`
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: #121212;
+  background-color: ${(props) => props.theme.colors.black};
   color: white;
   ${mobile({ height: "50px" })}
   & a {

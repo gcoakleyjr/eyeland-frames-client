@@ -45,7 +45,7 @@ const Input = styled.input`
 const Button = styled.button`
   flex: 1;
   border: none;
-  background-color: #121212;
+  background-color: ${(props) => props.theme.colors.accent};
   color: white;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;

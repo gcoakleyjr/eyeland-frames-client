@@ -152,10 +152,10 @@ const Footer = () => {
             <MailIcon style={{ marginRight: "10px" }} /> eyelandframes@gmail.com
           </ContactItem>
           <PaymentWrapper>
-            <Payment src="./img/american-express-svgrepo-com.svg" />
-            <Payment src="./img/discover-svgrepo-com.svg" />
-            <Payment src="./img/mastercard-3-svgrepo-com.svg" />
-            <Payment src="./img/visa-svgrepo-com.svg" />
+            <Payment src="https://res.cloudinary.com/dx1cp4cj9/image/upload/v1667085659/Eyeland%20Frames/american-express-svgrepo-com_rzcy12.svg" />
+            <Payment src="https://res.cloudinary.com/dx1cp4cj9/image/upload/v1667085659/Eyeland%20Frames/discover-svgrepo-com_e4mwtc.svg" />
+            <Payment src="https://res.cloudinary.com/dx1cp4cj9/image/upload/v1667085659/Eyeland%20Frames/mastercard-3-svgrepo-com_arm4iu.svg" />
+            <Payment src="https://res.cloudinary.com/dx1cp4cj9/image/upload/v1667085659/Eyeland%20Frames/visa-svgrepo-com_jrf917.svg" />
           </PaymentWrapper>
 
         </Right>

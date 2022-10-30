@@ -41,3 +41,5 @@
 -add 404 page
 
 -add purchase success page
+
+-search

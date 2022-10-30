@@ -213,7 +213,7 @@ const PayButton = ({ cartItems }) => {
   }
 
   return (
-    <Button disabled onClick={handleCheckout}>Check Out</Button>
+    <Button onClick={handleCheckout}>Check Out</Button>
   )
 }
 
