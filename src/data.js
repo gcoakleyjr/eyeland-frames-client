@@ -36,3 +36,21 @@ export const categories = [
   },
 ];
 
+export const dropDownItems = [
+  {
+    id: 1,
+    title: "Women's Eyewear",
+    path: "/products/female",
+  },
+  {
+    id: 2,
+    title: "Men's Eyewear",
+    path: "/products/male",
+  },
+  {
+    id: 3,
+    title: "All",
+    path: "/products/unisex",
+  }
+]
+

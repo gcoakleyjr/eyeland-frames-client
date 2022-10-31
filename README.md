@@ -20,8 +20,6 @@
 
 -finish hamburger menu
 
--add a categories drop menu to navbar
-
 -add transactions to admin portal
 
 -finish users on admin portal
@@ -36,7 +34,7 @@
 
 -add cart per user
 
--add profile page | change password
+- | change password
 
 -add 404 page
 

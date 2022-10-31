@@ -1,19 +1,24 @@
 import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchIcon from '@mui/icons-material/Search';
-import LogoutIcon from '@mui/icons-material/Logout';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-import React from "react";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
+import React, { useState } from "react";
 import styled from "styled-components";
-import { mobile, tablet } from "../responsive";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"
 import { logout } from '../redux/userRedux';
+
+import { mobile, tablet } from "../responsive";
+import DropDownMenu from './DropDownMenu';
 
 const Container = styled.nav`
   height: 80px;
   display: flex;
   align-items: center;
+  position: relative;
   width: 100%;
   background-color: ${(props) => props.theme.colors.black};
   color: white;
@@ -40,16 +45,20 @@ flex: 1;
 `;
 
 
-const User = styled.span`
+const MenuText = styled.span`
   font-size: 14px;
   cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const SearchContainer = styled.div`
   border: 0.5px solid lightgray;
   display: flex;
   align-items: center;
-  margin-left: 25px;
+  margin-right: 25px;
   padding: 5px;
   border-radius: 3px;
   ${tablet({ display: "none" })}
@@ -80,7 +89,7 @@ flex: 1;
   gap: 1rem;
 `;
 
-const MenuItem = styled.div`
+const MenuAction = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
@@ -140,6 +149,7 @@ position: relative;
   }
 `
 
+
 const Hamburger = (props) => {
   return (
     <MenuWrapper>
@@ -151,6 +161,25 @@ const Hamburger = (props) => {
 const Navbar = () => {
   const quantity = useSelector(state => state.cart.quantity)
   const user = useSelector(state => state.user.currentUser)
+  const [dropDown, setDropDown] = useState(false)
+  console.log(user)
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogOut = () => {
+    dispatch(logout())
+    setAnchorEl(null);
+  };
+
 
   const dispatch = useDispatch()
 
@@ -158,45 +187,76 @@ const Navbar = () => {
     <Container id='nav-bar'>
       <Wrapper>
         <Left>
+
           <Hamburger />
-          <SearchContainer>
+
+          <SearchContainer onMouseEnter={() => setDropDown(false)}>
             <Input placeholder="Search" />
             <SearchIcon style={{ color: "gray", fontSize: 16 }} />
           </SearchContainer>
+
+          <MenuText
+            onClick={() => setDropDown(!dropDown)}
+            onMouseEnter={() => setDropDown(true)}
+          >
+            Shop
+          </MenuText>
+          <DropDownMenu dropDown={dropDown} setDropDown={setDropDown} />
+
         </Left>
-        <Center>
+        <Center onMouseEnter={() => setDropDown(false)}>
           <HeaderLink to="/">
             <Logo>EYELAND FRAMES.</Logo>
           </HeaderLink>
         </Center>
-        <Right>
+
+        <Right onMouseEnter={() => setDropDown(false)}>
 
           <UserMenuWrapper>
             {!user ?
               <>
                 <Link to="/register">
-                  <MenuItem>REGISTER</MenuItem>
+                  <MenuAction>REGISTER</MenuAction>
                 </Link>
 
                 <Link to="/login">
-                  <MenuItem>SIGN IN</MenuItem>
+                  <MenuAction>SIGN IN</MenuAction>
                 </Link>
               </>
               :
               <>
-                <User>Hello, {user.username}!</User>
-                <PersonRoundedIcon sx={{ cursor: 'pointer' }} />
-                <LogoutIcon sx={{ cursor: 'pointer' }} onClick={() => dispatch(logout())} />
+                <MenuText>Hello, {user.username}!</MenuText>
+                <PersonRoundedIcon
+                  sx={{ cursor: 'pointer' }}
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClick}
+                />
+
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <Link to={"/account/" + user._id}><MenuItem onClick={handleClose}>My account</MenuItem></Link>
+
+                  <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                </Menu>
               </>
             }
           </UserMenuWrapper>
 
           <Link to="/cart" style={{ color: "white" }}>
-            <MenuItem>
+            <MenuAction>
               <Badge badgeContent={quantity} color="primary" overlap="circular">
                 <ShoppingCartOutlinedIcon />
               </Badge>
-            </MenuItem>
+            </MenuAction>
           </Link>
 
         </Right>
