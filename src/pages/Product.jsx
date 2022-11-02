@@ -12,6 +12,7 @@ import { publicRequest } from "../requestMethods";
 import { addProduct } from '../redux/cartRedux';
 import { useDispatch } from "react-redux"
 import { Box, Stack } from '@mui/system';
+// import { SliderComponent } from '../components/ProductSlider';
 
 const Container = styled.div``;
 
@@ -58,7 +59,7 @@ const SizingItem = styled.article`
 const Image = styled.img`
   width: ${(props) => props.width || "100%"};
   min-width: 280px;
-  max-width: 500px;
+  max-width: 1050px;
   height: 56vh;
   object-fit: contain;
   ${mobile({ height: "26vh" })}
@@ -258,10 +259,12 @@ const Product = () => {
       <Announcement />
       <Navbar />
 
+      {/* PRODUCT OVERVIEW*/}
       <Wrapper id='product-overview'>
 
         <ImgContainer flex={4}>
           <Image src={product.img ? product.img[0].url : ""} />
+          {/*<SliderComponent images={product.img} /> */}
         </ImgContainer>
 
         <InfoContainer id="over-view-info-container">
@@ -306,6 +309,7 @@ const Product = () => {
 
       </Wrapper>
 
+      {/* PRODUCT DETAILS*/}
       <Stack component="section" sx={{ alignItems: 'center' }}>
 
         <Title>Product Details</Title>
@@ -346,6 +350,7 @@ const Product = () => {
 
       </Stack>
 
+      {/* PRODUCT SIZING*/}
       <Stack component="section" sx={{ alignItems: 'center', padding: "0 20px", marginBottom: '70px', textAlign: 'center' }}>
         <Title>Our Frame Sizes</Title>
 

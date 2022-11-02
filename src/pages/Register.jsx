@@ -75,7 +75,7 @@ const Register = () => {
   const [inputs, setInputs] = useState({});
   const [errorPassword, setErrorPassword] = useState(false);
   const dispatch = useDispatch()
-  const { isFetching, error } = useSelector(state => state.user)
+  const { isFetching } = useSelector(state => state.user)
 
   const handleChange = (e) => {
     setInputs((prev) => {

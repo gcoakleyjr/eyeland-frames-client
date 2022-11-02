@@ -162,7 +162,6 @@ const Navbar = () => {
   const quantity = useSelector(state => state.cart.quantity)
   const user = useSelector(state => state.user.currentUser)
   const [dropDown, setDropDown] = useState(false)
-  console.log(user)
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
