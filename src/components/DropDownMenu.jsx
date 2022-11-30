@@ -2,6 +2,7 @@ import React from 'react'
 import { dropDownItems } from '../data'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { mobile } from '../responsive'
 
 const Menu = styled.ul`
     width: 100%;
@@ -11,11 +12,14 @@ const Menu = styled.ul`
     top: 80px;
     left: 0;
     padding: 0;
-    z-index: 30;
+    z-index: 50;
+    background-color: white;
 
     &.clicked {
         display: none;
     }
+
+    ${mobile({ top: "50px" })}
 `
 
 const MenuItem = styled.li`

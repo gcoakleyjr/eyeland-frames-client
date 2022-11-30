@@ -10,6 +10,9 @@ import React, { useEffect } from 'react';
 import { addProduct } from '../redux/cartRedux';
 import { useDispatch } from "react-redux"
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 const Divider = styled.hr`
@@ -145,6 +148,8 @@ const Product = ({ item }) => {
 
   const dispatch = useDispatch()
   const [color, setColor] = React.useState('');
+  const notify = () => toast.success("Added to cart!");
+
   useEffect(() => {
     setColor(color ? color : item.color[0])
   }, [color, item.color])
@@ -153,12 +158,25 @@ const Product = ({ item }) => {
     dispatch(
       addProduct({ ...item, quantity: 1, color })
     );
+    notify()
   };
 
 
   return (
     <Grid sm={6} md={4} xl={3} sx={{ position: 'relative' }}>
-
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        limit={3}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
 
 
       <Container sizeSm={smScreen} sizeMd={mdScreen} sizeXl={xlScreen}>

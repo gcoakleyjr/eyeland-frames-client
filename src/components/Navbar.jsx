@@ -13,12 +13,15 @@ import { logout } from '../redux/userRedux';
 
 import { mobile, tablet } from "../responsive";
 import DropDownMenu from './DropDownMenu';
+import MiniCart from './MiniCart';
 
 const Container = styled.nav`
   height: 80px;
   display: flex;
   align-items: center;
-  position: relative;
+  position: fixed;
+  z-index: 500;
+  top: 0;
   width: 100%;
   background-color: ${(props) => props.theme.colors.black};
   color: white;
@@ -52,6 +55,16 @@ const MenuText = styled.span`
   &:hover {
     text-decoration: underline;
   }
+`
+
+const MenuTextShop = styled.span`
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+  ${tablet({ display: "none" })}
 `
 
 const SearchContainer = styled.div`
@@ -149,6 +162,10 @@ position: relative;
   }
 `
 
+const Height = styled.div`
+height: 80px;
+`
+
 
 const Hamburger = (props) => {
   return (
@@ -162,6 +179,7 @@ const Navbar = () => {
   const quantity = useSelector(state => state.cart.quantity)
   const user = useSelector(state => state.user.currentUser)
   const [dropDown, setDropDown] = useState(false)
+  const [cartOpen, setCartOpen] = useState(false)
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -183,84 +201,90 @@ const Navbar = () => {
   const dispatch = useDispatch()
 
   return (
-    <Container id='nav-bar'>
-      <Wrapper>
-        <Left>
+    <>
+      <Height></Height>
+      <Container id='nav-bar'>
 
-          <Hamburger />
+        <Wrapper>
+          <Left>
 
-          <SearchContainer onMouseEnter={() => setDropDown(false)}>
-            <Input placeholder="Search" />
-            <SearchIcon style={{ color: "gray", fontSize: 16 }} />
-          </SearchContainer>
+            <Hamburger />
 
-          <MenuText
-            onClick={() => setDropDown(!dropDown)}
-            onMouseEnter={() => setDropDown(true)}
-          >
-            Shop
-          </MenuText>
-          <DropDownMenu dropDown={dropDown} setDropDown={setDropDown} />
+            <SearchContainer onMouseEnter={() => setDropDown(false)}>
+              <Input placeholder="Search" />
+              <SearchIcon style={{ color: "gray", fontSize: 16 }} />
+            </SearchContainer>
 
-        </Left>
-        <Center onMouseEnter={() => setDropDown(false)}>
-          <HeaderLink to="/">
-            <Logo>EYELAND FRAMES.</Logo>
-          </HeaderLink>
-        </Center>
+            <MenuTextShop
+              onClick={() => setDropDown(!dropDown)}
+              onMouseEnter={() => setDropDown(true)}
+            >
+              Shop
+            </MenuTextShop>
+            <DropDownMenu dropDown={dropDown} setDropDown={setDropDown} />
 
-        <Right onMouseEnter={() => setDropDown(false)}>
+          </Left>
+          <Center onMouseEnter={() => setDropDown(false)}>
+            <HeaderLink to="/">
+              <Logo>EYELAND FRAMES.</Logo>
+            </HeaderLink>
+          </Center>
 
-          <UserMenuWrapper>
-            {!user ?
-              <>
-                <Link to="/register">
-                  <MenuAction>REGISTER</MenuAction>
-                </Link>
+          <Right onMouseEnter={() => setDropDown(false)}>
 
-                <Link to="/login">
-                  <MenuAction>SIGN IN</MenuAction>
-                </Link>
-              </>
-              :
-              <>
-                <MenuText>Hello, {user.username}!</MenuText>
-                <PersonRoundedIcon
-                  sx={{ cursor: 'pointer' }}
-                  aria-controls={open ? 'basic-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClick}
-                />
+            <UserMenuWrapper>
+              {!user ?
+                <>
+                  <Link to="/register">
+                    <MenuAction>REGISTER</MenuAction>
+                  </Link>
 
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                >
-                  <Link to={"/account/" + user._id}><MenuItem onClick={handleClose}>My account</MenuItem></Link>
+                  <Link to="/login">
+                    <MenuAction>SIGN IN</MenuAction>
+                  </Link>
+                </>
+                :
+                <>
+                  <MenuText>Hello, {user.username}!</MenuText>
+                  <PersonRoundedIcon
+                    sx={{ cursor: 'pointer' }}
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                  />
 
-                  <MenuItem onClick={handleLogOut}>Logout</MenuItem>
-                </Menu>
-              </>
-            }
-          </UserMenuWrapper>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                  >
+                    <Link to={"/account/" + user._id}><MenuItem onClick={handleClose}>My account</MenuItem></Link>
 
-          <Link to="/cart" style={{ color: "white" }}>
-            <MenuAction>
+                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                  </Menu>
+                </>
+              }
+            </UserMenuWrapper>
+
+
+            <MenuAction onClick={() => setCartOpen(!cartOpen)}>
               <Badge badgeContent={quantity} color="primary" overlap="circular">
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </MenuAction>
-          </Link>
 
-        </Right>
-      </Wrapper>
-    </Container>
+
+          </Right>
+        </Wrapper>
+        {cartOpen && <MiniCart />}
+      </Container>
+    </>
+
   );
 };
 

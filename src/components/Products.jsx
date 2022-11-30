@@ -5,6 +5,7 @@ import Product from "./Product";
 import axios from "axios"
 import Grid from '@mui/material/Unstable_Grid2';
 
+
 const Container = styled.section`
     padding: 0 60px 30px 60px;
     display: flex;
@@ -32,6 +33,7 @@ const URL = 'https://eyelandframezapi.herokuapp.com/api/products' || 'http://loc
 const Products = ({ category, filters, sort }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+
 
   useEffect(() => {
     const getProducts = async () => {

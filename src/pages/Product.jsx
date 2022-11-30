@@ -1,10 +1,13 @@
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import styled from "styled-components";
-import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
+
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -12,7 +15,6 @@ import { publicRequest } from "../requestMethods";
 import { addProduct } from '../redux/cartRedux';
 import { useDispatch } from "react-redux"
 import { Box, Stack } from '@mui/system';
-// import { SliderComponent } from '../components/ProductSlider';
 
 const Container = styled.div``;
 
@@ -36,6 +38,27 @@ const ImgContainer = styled.div`
   justify-content: center;
   ${mobile({ margin: "1rem 0" })}
 `;
+
+const ImgNav = styled.div`
+  width: 100px;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  ${mobile({ flexDirection: "row", width: "100%", marginBottom: "1rem", gap: "1rem" })}
+`
+
+const ImgNavContainer = styled.div`
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  border: 1px solid #dedede;
+  height: 60px;
+  padding: 8px;
+
+  &.active-img {
+    border: 1px solid grey;
+  }
+`
 
 const SizingContainer = styled.div`
 display: flex;
@@ -224,9 +247,12 @@ const Product = () => {
   const id = location.pathname.split("/")[2]
 
   const dispatch = useDispatch()
+
   const [product, setProduct] = useState({})
   const [color, setColor] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [selectedImage, setSelectedImage] = useState(0);
+  const notify = () => toast.success("Added to cart!");
 
 
   useEffect(() => {
@@ -252,18 +278,49 @@ const Product = () => {
     dispatch(
       addProduct({ ...product, quantity, color })
     );
+    notify()
   };
 
   return (
     <Container>
-      <Announcement />
       <Navbar />
 
       {/* PRODUCT OVERVIEW*/}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        limit={3}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <Wrapper id='product-overview'>
 
+        <ImgNav>
+
+          {product.img && product.img?.map((img, i) => (
+            <ImgNavContainer
+              className={selectedImage === i ? "active-img" : ""}
+              key={i}>
+
+              <img
+                src={img.url}
+                onClick={() => setSelectedImage(i)}
+                alt="" />
+
+            </ImgNavContainer>
+          ))}
+
+        </ImgNav>
+
         <ImgContainer flex={4}>
-          <Image src={product.img ? product.img[0].url : ""} />
+          <Image src={product.img ? product.img[selectedImage].url : ""} />
           {/*<SliderComponent images={product.img} /> */}
         </ImgContainer>
 
